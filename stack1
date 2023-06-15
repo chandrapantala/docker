@@ -1,0 +1,92 @@
+---
+version: '3.8'
+services:
+  mydb:
+    image: mysql:5
+    environment:
+      MYSQL_ROOT_PASSWORD: ch1
+  myword:
+    image: wordpress
+    ports:
+      - 8787:80
+
+
+stack2.yml
+
+---
+version: '3.8'
+services:
+  mydb:
+    image: mysql:5
+    environment:
+      MYSQL_ROOT_PASSWORD: ch1
+    deploy:
+      replicas: 2
+  myword:
+    image: wordpress
+    ports:
+      - 8787:80
+    deploy:
+      replicas: 2
+
+stack3.yml
+
+---
+version: '3.8'
+services:
+  myjenkins:
+    image: jenkins/jenkins
+    ports:
+      - 5050:8080
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.hostname == manager
+
+  myqa:
+    image: tomcat
+    ports:
+      - 6060:8080
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.hostname == worker1
+
+  myprod:
+    image: tomcat
+    ports:
+      - 7070:8080
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.hostname == worker2
+
+satck5.yml
+
+---
+version: '3.8'
+services:
+  hub:
+    image: selenium/hub
+    ports:
+      - 4444:4444
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.1"
+          memory: "300M"
+
+  chrome:
+     image: selenium/node-chrome-debug
+     ports:
+       - 5901:5900
+     deploy:
+       replicas: 2
+       resources:
+         limits:
+           cpus: "0.1"
+           memory: "200M"
