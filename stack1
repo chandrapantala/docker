@@ -1,3 +1,4 @@
+#install docker in mysql stack1.yml create image container
 ---
 version: '3.8'
 services:
@@ -11,8 +12,8 @@ services:
       - 8787:80
 
 
-stack2.yml
-
+#stack2.yml
+it would like install mysql and with no of replicas
 ---
 version: '3.8'
 services:
@@ -29,8 +30,8 @@ services:
     deploy:
       replicas: 2
 
-stack3.yml
-
+#stack3.yml
+insatll ci-cd process jenkins installation
 ---
 version: '3.8'
 services:
@@ -64,8 +65,8 @@ services:
         constraints:
           - node.hostname == worker2
 
-satck5.yml
-
+#satck5.yml
+selinium create images with limits chrome/hub
 ---
 version: '3.8'
 services:
