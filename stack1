@@ -11,6 +11,11 @@ services:
     ports:
       - 8787:80
 
+-->docker stack deploy -c stack1.yml mych
+-->docker stack ls
+-->docker service ls
+-->docker stack ps mych
+-->docker stack rm mych
 
 #stack2.yml
 it would like install mysql and with no of replicas
@@ -30,6 +35,11 @@ services:
     deploy:
       replicas: 2
 
+-->docker stack deploy -c stack2.yml mychu
+-->docker stack ls
+-->docker service ls
+-->docker service scale mychu_mybd=3  #replicas count can changed 2to3
+
 #stack3.yml
 insatll ci-cd process jenkins installation
 ---
@@ -44,7 +54,6 @@ services:
       placement:
         constraints:
           - node.hostname == manager
-
   myqa:
     image: tomcat
     ports:
@@ -54,7 +63,6 @@ services:
       placement:
         constraints:
           - node.hostname == worker1
-
   myprod:
     image: tomcat
     ports:
@@ -64,6 +72,10 @@ services:
       placement:
         constraints:
           - node.hostname == worker2
+
+-->docker stack deploy -c ci-cd.yml cicd
+-->docker stack ps cicd
+#see on qa in install tomcat and prod in install tomcat and jenkin in install jenkins with help of "host-names"
 
 #satck5.yml
 selinium create images with limits chrome/hub
@@ -91,3 +103,10 @@ services:
          limits:
            cpus: "0.1"
            memory: "200M"
+
+--->docker stack deploy -c stack5.yml selemium
+--->docker service ls
+--->docker service inspect selenium_hub --pretty
+#show the in detailly resources and cpu and memory
+--->docker service inspect selenium_chrome --pretty
+--->docker stack rm selenium
