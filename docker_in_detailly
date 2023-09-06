@@ -55,8 +55,8 @@
       docker run --name forefox -d -p 5902:5900 --link hub:selenium selenium/node-fierfox-debug
   #it can be installed by vnc mini windos can created in docker container with help of selenium
     ---google ---->vnc download--->real vnc (downloaded)
-    --vnc(open) --->pub ip:5901  ----#it can shows windows disply can right click to open chrome
-                --->pub ip:5902  ----#its show mini windows diplayed right click to open firfox
+    --vnc(open) --->pub ip:5901  ----#ask password--{secret}it can shows windows disply can right click to open chrome
+                --->pub ip:5902  ----#ask password--{secret}its show mini windows diplayed right click to open firfox
         
 
 
