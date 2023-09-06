@@ -1,0 +1,72 @@
+1---->docker pull httpd
+  #this pull command is used to pull images in docker hub
+  --docker images
+  --docker rmi httpd
+  ex: httpd,nginx,tomee
+2---->docker run nginx
+    #this command is used to create a container
+    --docker container ls
+    --docker rm -f nginx #delete container
+3---->docker run --name t1 -d -p 8181:8080 tomee
+      docker run --name t2 -d -P tomee
+    #this commands in also used to create container but **-d** is used to detach mode of create container time number of lines displayed on pc -d used to nt shown somany lines
+    #-p is used to port container this command in hostport:8181 & containerport:8080 then container port is perminent u can moddify only hostport
+    #-P capital P can used to not perticulary doesnot no any portnumber that time to used -P
+    --docker container ls
+    --docker rm -f t1 #delete the container of tomee
+4---->docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=ch mysql
+      docker run --name mypost -d -e -p 8080:80 POSTGRES_PASSWORD=CH -e POSTGRES_USER=myuser -e POSTGRES_DB=mydb1 postgres
+    #this commands is used to detabase servers of mysql&postgers&wordpress then mainly used by -e environment varients 
+    --docker conatiner ls
+    --docker images
+  #google in check the ips--pub ip:80
+5---->docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=ch mysql
+      docker run --name myhttpd -d -p 8088:80 --link mydb:mysql httpd
+      docker run --name php -d --link mydb:mysql --link myhttpd:httpd php:7.2-apache
+  #this command is used to links one container to anothe containers --link then mydb is container name and mysql is label name this command
+    in mysql container to linked with httpd container
+  --docker container ls
+  --docker inspect myhttpd #then see link to mydb
+  --docker inspect php
+  check to it can working or not---google --->pub ip:8088-----#it can show contanet "its working"
+6---->docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=ch mysql
+      docker run --name myword -d -p 8181:80 --link mydb:mysql wordpress
+    #this also link to one container to another container
+    --docker inspect myword
+    checking to google--->pub ip:8181 ---#it can show contant "wordpress select language page can shows"
+7---->docker run --name mypost -d -e POSTGRES_PASSWORD=ch -e POSTGRES_USER=myuser -e POSTGRES_DB=mydb postgres
+      docker run --name myadmin -d -p 8181:80 --link mypost:mysql adminer
+    #this is also used to link command 
+    --docker container ls
+    checking in google its working or not---> pub ip:8181 --#it can shows the "show the login of adminer[pass] [user] [mydb]"
+8---->docker run --name myjenkin -d -p 5050:8080 jenkins/jenkins
+      docker run --name qaserver -d -p 6060:8080 --link myjenkin:jenkins tomee
+      docker run --name prodserver -d -p 7070:8080 --link myjenkin:jenkins tomee
+    #this is jenkins installation is simply in docker and those servers are linked to qa&prod can linked by myjenkins
+      google--->pub ip:5050 ---#it can shows jenkins starts page
+      google--->pub ip:6060 ---#it can show tomcat installled page
+      google--->pub ip:7070 ---#it can shows tomcat installation page        
+  --->docker exec -it myjenkin bash
+        # cat /var/lib/jenkins........... ---#these path is copyed by the jenkins page (pub ip:5050 page in /var/lib/.....)
+        #gag2gtbdgsks6gdbdj ----#its the password of jenkins 
+        ----#finally jenkins installation completed
+9---->docker run --name hub -d -p 4444:4444 selenium/hub
+      docker run --name chrome -d -p 5901:5900 --link hub:selenium selenium/node-chrome-debug
+      docker run --name forefox -d -p 5902:5900 --link hub:selenium selenium/node-fierfox-debug
+  #it can be installed by vnc mini windos can created in docker container with help of selenium
+    ---google ---->vnc download--->real vnc (downloaded)
+    --vnc(open) --->pub ip:5901  ----#it can shows windows disply can right click to open chrome
+                --->pub ip:5902  ----#its show mini windows diplayed right click to open firfox
+        
+
+
+
+
+
+
+
+
+
+
+        
+  
