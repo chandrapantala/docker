@@ -57,6 +57,66 @@
     ---google ---->vnc download--->real vnc (downloaded)
     --vnc(open) --->pub ip:5901  ----#ask password--{secret}it can shows windows disply can right click to open chrome
                 --->pub ip:5902  ----#ask password--{secret}its show mini windows diplayed right click to open firfox
+10---->---
+version: '3.8'
+services:
+  mydb:
+    image: httpd
+    ports:
+      - 8080:80
+11----->
+---
+version: '3.8'
+services:
+  myhttp:
+    image: httpd
+    ports:
+      - 8080:80
+    links:
+      - mydb:mysql
+12---->
+---
+version: '3.8'
+services:
+  mydb:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD:ch
+13---->
+---
+version: '3.8'
+services:
+  mydb:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD:CH
+  myword:
+    image: wordpress
+    ports:
+      - 8181:80
+    links:
+      - mydb:mysql
+...
+14---->
+---
+version: '3.8'
+services:
+  mydb:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD:CU
+  apache:
+    image: httpd
+    ports:
+      - 8181:80
+    links:
+      - mydb:mysql
+  php:
+    image: php:7.2-apache
+    links:
+      - mydb:mysql
+      - apache:httpd
+
         
 
 
