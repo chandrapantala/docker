@@ -57,14 +57,17 @@
     ---google ---->vnc download--->real vnc (downloaded)
     --vnc(open) --->pub ip:5901  ----#ask password--{secret}it can shows windows disply can right click to open chrome
                 --->pub ip:5902  ----#ask password--{secret}its show mini windows diplayed right click to open firfox
-10---->---
+10---->---docker compose files
+vim myht.yml
+---
 version: '3.8'
 services:
   mydb:
     image: httpd
     ports:
       - 8080:80
-11----->
+--docker compose -f myht.ym up -d
+11----->vim mysqql.yml
 ---
 version: '3.8'
 services:
@@ -74,7 +77,9 @@ services:
       - 8080:80
     links:
       - mydb:mysql
-12---->
+--docker compose mysqql.ym up -d
+--docker inspect myhttp  #see link in mysql and httpd
+12---->vim mydb.yml
 ---
 version: '3.8'
 services:
@@ -82,7 +87,10 @@ services:
     image: mysql
     environment:
       - MYSQL_ROOT_PASSWORD:ch
-13---->
+
+--docker compose -f mydb.yml up -d
+#this is database container mysql in environment
+13---->vim myword.yml
 ---
 version: '3.8'
 services:
@@ -97,7 +105,10 @@ services:
     links:
       - mydb:mysql
 ...
-14---->
+
+----docker compose -f myword.yml up -d
+---#this file is create links with mysql and wordpress
+14---->vim lamp.yml   (#lamp architecture creation l=linux,a=apache,m=mysql,p=php)
 ---
 version: '3.8'
 services:
@@ -116,6 +127,55 @@ services:
     links:
       - mydb:mysql
       - apache:httpd
+
+----docker compose -f lamp.yml up -d
+#it can linked with mysql&httpd&php:7.2-apache its the lamp architecture container
+
+15---docker volumes
+
+--docker run --name u1 -it -v ubuntu
+--cd dev
+--touch f1 f2 f3
+--ctr+p&q
+docker inspect u1
+--take path of source ex:var/lib/ubuntu/......copy
+---docker rm -f u1 (delete the container)
+---cd past(path of var/lib/ubuntu.....)
+---ls (#show the files of f1 f2 f3)#delete container but files still saved in volumes
+
+16---docker volumes
+
+--docker run --name c1 -it --volumes-from centos
+--cd dev
+--touch f1 f2---ctr+p&q
+--docker run --name c2 -it --volumes-from c1 centos
+--cd dev
+--touch f3 f4----ctr+p&q
+---docker run --name c3 -it --volumes-from c2 centos
+--cd dev
+--touch f6 f5 ----ctr+p&q
+----docker attach c1
+----docker attach c2
+----docker attach c3
+--docker inspect c1 -----take path of source code (var/lib/unutu/...)
+------docker rm -f c1 c2 c3
+--cd paste9var/lib/unutu....)  --ls (#show the content of files f1 f2 f3 f4 f5 f6)
+
+17---docker volumes #docker commit (it can make a new container and get backup also)
+
+---docker run --name u1 -it ubuntu
+--apt install -y git
+--apt install -y maven
+----docker rm -f u1
+--git --version(not shows there can delete container but no applications in host machine)
+---docker run --name u1 -it ubuntu
+--apt install -y git
+--apt install -y maven --ctr+p&q
+--docker commit u1 myubuntu ----#it can make to container to commited myubuntu.its our choseble image
+--docker rm -f u1
+---docker run --name u1 -it myubuntu 
+-->git --version (still it shows the application of git version)
+-->maven --version(it can be shows)
 
         
 
